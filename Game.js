@@ -310,6 +310,10 @@ function keypress_ivent(e) {
               }
               if(add_Item == 'h'){
                 add = 80;
+                for (let i = 0; i < 9; i++) {
+                  const element = array[i];
+                  
+                }
               }
               if(add_Item == 'k'){
                 add = 80;
@@ -357,7 +361,7 @@ function keypress_ivent(e) {
       if(price[3] <= gold){
 
       addItem('k')
-      gold = gold-price[1]
+      gold = gold-price[3]
       }
     }
     break
