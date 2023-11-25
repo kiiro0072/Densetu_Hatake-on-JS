@@ -114,6 +114,14 @@ function DrawBlock(){
                           BlockTIME[x][y] = 100
                           BlockList[x][y] = 'JB'
                           break;
+                          case 'T':
+                            BlockList[x][y] = 'TA'
+                            BlockTIME[x][y] = 100
+                            break;
+                            case 'TA':
+                              BlockTIME[x][y] = 100
+                              BlockList[x][y] = 'TB'
+                              break;
                 default:
                   break;
               }
@@ -154,6 +162,15 @@ function DrawTile(type,x,y,width,height){
                       break;
                       case 'JB':
                         image.src = "./image/Blocks/じゃがいもA.png"
+                        break;
+                        case 'T':
+                    image.src = "./image/Blocks/にんじんA.png"
+                    break;
+                    case 'TA':
+                      image.src = "./image/Blocks/かぶA.png"
+                      break;
+                      case 'TB':
+                        image.src = "./image/Blocks/かぶB.png"
                         break;
         default:
     }
@@ -196,6 +213,14 @@ function getMousePosition(canvas, evt) {
       playsoud_Dart()
       }
     }
+    if(Item_name[Itemnumber] == 'k'){
+      if(BlockList[IndexX][IndexY] == 'n'){
+      BlockList[IndexX][IndexY] = 'T'
+      BlockTIME[IndexX][IndexY] = 100;
+      removeItem('g',Itemnumber)
+      playsoud_Dart()
+      }
+    }
     if(BlockList[IndexX][IndexY] == 'JB'){
       var random = Math.random(100)*3
       for (let i = 0; i < random; i++) {
@@ -209,6 +234,16 @@ function getMousePosition(canvas, evt) {
       var random = Math.random(100)*3
       for (let i = 0; i < random; i++) {
         addItem('a')
+        
+      }
+      BlockList[IndexX][IndexY] = 'n'
+      BlockTIME[IndexX][IndexY] = 0;
+      playsoud_Dart()
+    }
+    if(BlockList[IndexX][IndexY] == 'TB'){
+      var random = Math.random(100)*3
+      for (let i = 0; i < random; i++) {
+        addItem('k')
         
       }
       BlockList[IndexX][IndexY] = 'n'
@@ -262,19 +297,29 @@ function keypress_ivent(e) {
             Itemnumber = SlotCamera+9
             break;
             case 'q':
+              add_Item = 'null';
               var add = 0;
               removeItem(0,Itemnumber)
               add_Item = Item_name[Itemnumber]
-              if(add_Item = 'a'){
+              console.log(add_Item)
+              if(add_Item == 'a'){
                 add = 50*0.8;
               }
-              if(add_Item = 'g'){
+              if(add_Item == 'g'){
                 add = 80*0.8;
               }
-              if(add_Item = 'h'){
+              if(add_Item == 'h'){
                 add = 80;
               }
+              if(add_Item == 'k'){
+                add = 80;
+              }
+              if(add_Item == 'null'){
+                add = 0;
+              }
+              //add = 0;
               gold += add;
+              console.log(add)
               break
                 default:
                   break;
@@ -405,9 +450,9 @@ function NEWDrawEnvent(){
         case 'h':
                 image.src = "./image/Items/鍬.png"
                 break;
-                case 'k':
+                /*case 'k':
                 image.src = "./image/Items/かぶ.png"
-                break;
+                break;*/
         default:
           image.src = "./image/Items/空.png"
             break;
