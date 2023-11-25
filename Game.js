@@ -4,7 +4,7 @@ BGM.loop = true
 BGM.play()
 var CameraY = 0
 var Item_number
-var gold = 0;
+var gold = 150;
 var Envent = false;
 var Shop = false;
 var Itemkind = '';
@@ -61,12 +61,6 @@ var BlockTIME = [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
-function Init() {
-  for (let i = 0; i < 10; i++) {
-    addItem('h') 
-  }
-  addItem('a')
-}
 var canvas = document.getElementById('Canvas');
 var context = canvas.getContext('2d');
 function removeItem(type,List) {
@@ -309,11 +303,7 @@ function keypress_ivent(e) {
                 add = 80*0.8;
               }
               if(add_Item == 'h'){
-                add = 80;
-                for (let i = 0; i < 9; i++) {
-                  const element = array[i];
-                  
-                }
+                add = 0;
               }
               if(add_Item == 'k'){
                 add = 80;
@@ -529,7 +519,6 @@ function DrawShop(){
   image4.src = "./image/Items/かぶ.png"
   context.drawImage(image4,60+600,60,128,128)
 }
-Init()
   function main() {
     if(Shop){
       DrawShop()
