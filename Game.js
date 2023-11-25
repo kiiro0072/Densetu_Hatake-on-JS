@@ -352,7 +352,8 @@ function keypress_ivent(e) {
       gold = gold-price[2]
       }
     }
-    if(Shop_nuber == 3){
+    if(Shop_nuber == 4){
+      console.log(Shop_nuber)
       if(price[3] <= gold){
 
       addItem('k')
