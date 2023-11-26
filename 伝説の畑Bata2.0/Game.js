@@ -1,10 +1,9 @@
 var CameraX = 0
-var BGM = new Audio("./Saund/viller.mp3")
-BGM.loop = true
-BGM.play()
+var audio = new Audio("./Saund/tuti.mp3");
+var Coin_audio = new Audio("./Saund/Coin.mp3");
 var CameraY = 0
 var Item_number
-var gold = 0;
+var gold = 150;
 var Envent = false;
 var Shop = false;
 var Itemkind = '';
@@ -18,7 +17,7 @@ var Shop_nuber = 0;
 var Item_name = [n,n,n,n,n,n,n,n,n,n,n,n,n,n,n]
 var Item_Int = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 var BlockList = [
-['n','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g',],
+['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g',],
 ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g',],
 ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g',],
 ['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g',],
@@ -61,12 +60,6 @@ var BlockTIME = [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
-function Init() {
-  for (let i = 0; i < 10; i++) {
-    addItem('h') 
-  }
-  addItem('a')
-}
 var canvas = document.getElementById('Canvas');
 var context = canvas.getContext('2d');
 function removeItem(type,List) {
@@ -174,7 +167,7 @@ function DrawTile(type,x,y,width,height){
                         break;
         default:
     }
-    context.drawImage(image,x,y,width,height)
+    context.drawImage(image,x,y,width-5,height-5)
     
 }
 function getMousePosition(canvas, evt) {
@@ -193,13 +186,17 @@ function getMousePosition(canvas, evt) {
     IndexY = Math.floor(IndexY)
   }, false);
   canvas.addEventListener('click', function (evt) {
+
     if(Item_name[Itemnumber] == 'h'){
       BlockList[IndexX][IndexY] = 'n'
+      audio.play()
       removeItem('h',Itemnumber)
     }
     if(Item_name[Itemnumber] == 'a'){
+      
       if(BlockList[IndexX][IndexY] == 'n'){
       BlockList[IndexX][IndexY] = 'k'
+      audio.play()
       BlockTIME[IndexX][IndexY] = 100;
       removeItem('a',Itemnumber)
       playsoud_Dart()
@@ -208,6 +205,7 @@ function getMousePosition(canvas, evt) {
     if(Item_name[Itemnumber] == 'g'){
       if(BlockList[IndexX][IndexY] == 'n'){
       BlockList[IndexX][IndexY] = 'J'
+      audio.play()
       BlockTIME[IndexX][IndexY] = 100;
       removeItem('g',Itemnumber)
       playsoud_Dart()
@@ -216,6 +214,7 @@ function getMousePosition(canvas, evt) {
     if(Item_name[Itemnumber] == 'k'){
       if(BlockList[IndexX][IndexY] == 'n'){
       BlockList[IndexX][IndexY] = 'T'
+      audio.play()
       BlockTIME[IndexX][IndexY] = 100;
       removeItem('g',Itemnumber)
       playsoud_Dart()
@@ -258,7 +257,10 @@ function playsoud_Dart(){
 function keypress_ivent(e) {
   console.log(e.key)
   if (e.key == 's') {
+    Coin_audio.play()
     if(Shop){
+      context.fillStyle = "#262"
+      context.fillRect(0,0,10000,10000)
       Shop = false
     }else{
       Shop = true
@@ -268,35 +270,46 @@ function keypress_ivent(e) {
   switch (e.key) {
     case '1':
       Itemnumber = SlotCamera+0
+      Coin_audio.play()
       break;
     case '2':
       Itemnumber = SlotCamera+1
+      Coin_audio.play()
       break;
     case '3':
       Itemnumber = SlotCamera+2
+      Coin_audio.play()
       break;
     case '4':
         Itemnumber = SlotCamera+3
+        Coin_audio.play()
         break;
     case '5':
         Itemnumber = SlotCamera+4
+        Coin_audio.play()
         break;
     case '6':
         Itemnumber = SlotCamera+5
+        Coin_audio.play()
         break;
         case '7':
           Itemnumber = SlotCamera+6
+          Coin_audio.play()
           break;
         case '8':
           Itemnumber = SlotCamera+7
+          Coin_audio.play()
           break;
         case '9':
           Itemnumber = SlotCamera+8
+          Coin_audio.play()
           break;
           case '0':
+            Coin_audio.play()
             Itemnumber = SlotCamera+9
             break;
             case 'q':
+              Coin_audio.play()
               add_Item = 'null';
               var add = 0;
               removeItem(0,Itemnumber)
@@ -309,7 +322,7 @@ function keypress_ivent(e) {
                 add = 80*0.8;
               }
               if(add_Item == 'h'){
-                add = 80;
+                add = 0;
               }
               if(add_Item == 'k'){
                 add = 80;
@@ -327,11 +340,10 @@ function keypress_ivent(e) {
 }else{
   switch (e.key) {
   case 'q':
-    console.log('a')
+    console.log(Shop_nuber)
     if(Shop_nuber == 0){
       if(price[0] <= gold){
-
-      addItem('a')
+      addItem("a")
       gold = gold-price[0]
       }
     }
@@ -352,11 +364,12 @@ function keypress_ivent(e) {
       gold = gold-price[2]
       }
     }
-    if(Shop_nuber == 3){
+    if(Shop_nuber == 4){
+      console.log(Shop_nuber)
       if(price[3] <= gold){
 
       addItem('k')
-      gold = gold-price[1]
+      gold = gold-price[3]
       }
     }
     break
@@ -429,106 +442,53 @@ function keypress_ivent(e) {
     }
 }
 function NEWDrawEnvent(){
-  context.fillStyle = "#555"
-  context.fillRect(0,580,10000,150)
-  for (let i = 0; i < Item_name.length; i++) {
-    var image = new Image()
-    context.fillStyle = "#999"
-    if(i == Itemnumber){
-    context.fillStyle = "#FF0"
-    context.fillRect(i*140+SlotCamera-10,600,100,100)
-    }else{
+    context.fillStyle = "#555"
+    context.fillRect(0,580,10000,150)
+    for (let i = 0; i < Item_name.length; i++) {
+      var image = new Image()
+      context.fillStyle = "#999"
+      if(i == Itemnumber){
+      context.fillStyle = "#FF0"
       context.fillRect(i*140+SlotCamera-10,600,100,100)
-    }
-    switch (Item_name[i]) {
-        case 'g':
-            image.src = "./image/Items/じゃがいも.png"
-            break;
-        case 'a':
-              image.src = "./image/Items/にんじん.png"
+      }else{
+        context.fillRect(i*140+SlotCamera-10,600,100,100)
+      }
+      switch (Item_name[i]) {
+          case 'g':
+              image.src = "./image/Items/じゃがいも.png"
               break;
-        case 'h':
-                image.src = "./image/Items/鍬.png"
+          case 'a':
+                image.src = "./image/Items/にんじん.png"
                 break;
-                /*case 'k':
-                image.src = "./image/Items/かぶ.png"
-                break;*/
-        default:
-          image.src = "./image/Items/空.png"
-            break;
+          case 'h':
+                  image.src = "./image/Items/鍬.png"
+                  break;
+                  /*case 'k':
+                  image.src = "./image/Items/かぶ.png"
+                  break;*/
+          default:
+            image.src = "./image/Items/空.png"
+              break;
+      }
+      context.drawImage(image,i*140-0+SlotCamera,610,80,80)
+      context.font = "30px italic bold";
+      context.fillStyle = "#333"
+      //context.fillText(Item_Int[i], i*140+SlotCamera, 690);
+      
+      if(Item_name[i] == 'h'){
+        let x = Item_Int[i]+9;
+        context.fillText(Math.floor(x/10), i*140+SlotCamera, 690);
+      }else{
+        context.fillText(Item_Int[i], i*140+SlotCamera, 690);
+      }
     }
-    context.drawImage(image,i*140-0+SlotCamera,610,80,80)
-    context.font = "30px italic bold";
-    context.fillStyle = "#333"
-    //context.fillText(Item_Int[i], i*140+SlotCamera, 690);
-    
-    if(Item_name[i] == 'h'){
-      let x = Item_Int[i]+9;
-      context.fillText(Math.floor(x/10), i*140+SlotCamera, 690);
-    }else{
-      context.fillText(Item_Int[i], i*140+SlotCamera, 690);
-    }
   }
-}
-function DrawShop(){
-  context.fillStyle = '#999'
-  context.fillRect(40,10,1220,660)
-  context.fillStyle = '#555'
-  context.fillRect(50,50,1200,600)
-  var image = new Image()
-  if(Shop_nuber == 0){
-    context.fillStyle = "#3F3"
-    context.fillRect(50,50,148,178)
-  }else{
-    context.fillStyle = "#DDD"
-    context.fillRect(50,50,148,178)
-  }
-  context.fillStyle = '#333';
-  context.fillText(price[0]+"G", 50,225);
-  image.src = "./image/Items/にんじん.png"
-  context.drawImage(image,60,60,128,128)
-  var image2 = new Image()
-  if(Shop_nuber == 1){
-    context.fillStyle = "#3F3"
-    context.fillRect(250,50,148,178)
-  }else{
-    context.fillStyle = "#DDD"
-    context.fillRect(250,50,148,178)
-  }
-  context.fillStyle = '#333';
-  context.fillText(price[1]+"G", 250,225);
-  image2.src = "./image/Items/じゃがいも.png"
-  context.drawImage(image2,60+200,60,128,128)
-  var image3 = new Image()
-  if(Shop_nuber == 2){
-    context.fillStyle = "#3F3"
-    context.fillRect(450,50,148,178)
-  }else{
-    context.fillStyle = "#DDD"
-    context.fillRect(450,50,148,178)
-  }
-  context.fillStyle = '#333';
-  context.fillText(price[2]+"G", 450,225);
-  image3.src = "./image/Items/鍬.png"
-  context.drawImage(image3,60+400,60,128,128)
-  var image4 = new Image()
-  if(Shop_nuber == 3){
-    context.fillStyle = "#3F3"
-    context.fillRect(650,50,148,178)
-  }else{
-    context.fillStyle = "#DDD"
-    context.fillRect(650,50,148,178)
-  }
-  context.fillStyle = '#333';
-  context.fillText(price[3]+"G", 650,225);
-  image4.src = "./image/Items/かぶ.png"
-  context.drawImage(image4,60+600,60,128,128)
-}
-Init()
   function main() {
+    //context.fillRect(0,0,10000,10000)
     if(Shop){
-      DrawShop()
+      Draw.Draw(context,Item_number,price)
       NEWDrawEnvent()
+      
       context.fillStyle = '#999';
       
     }else{
