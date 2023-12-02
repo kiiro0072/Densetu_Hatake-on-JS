@@ -1,6 +1,4 @@
 var CameraX = 0
-var audio = new Audio("./Saund/tuti.mp3");
-var Coin_audio = new Audio("./Saund/Coin.mp3");
 var CameraY = 0
 var Item_number
 var gold = 150;
@@ -12,6 +10,7 @@ var IndexY = 0;
 var SlotCamera = 0;
 var Itemnumber
 var n = "n"
+var Click = false;
 var price = [50,80,100,250]
 var Shop_nuber = 0;
 var Item_name = [n,n,n,n,n,n,n,n,n,n,n,n,n,n,n]
@@ -80,11 +79,16 @@ function removeItem(type,List) {
 function DrawBlock(){
     for(var x = 0; x < BlockList[0].length; x++){
         for(var y = 0; y < BlockList.length; y++){
-            DrawTile(BlockList[x][y],x*128-CameraX,y*128-CameraY,128,128)
-            if(IndexX == x && IndexY == y){
-                context.fillStyle = "RGB(255,0,0,0.2)"
-                //context.fillRect(x*128,y*128,128,128)
+          if(IndexX == x && IndexY == y){
+            context.fillStyle = "RGB(255,255,0)"
+            if(Click){
+              context.fillStyle = "RGB(0,255,0)"
             }
+            context.fillRect(x*128-5,y*128-5,148,144)
+          }else{
+            context.clearRect(x*128,y*128,128,128)
+          }
+            DrawTile(BlockList[x][y],x*128-CameraX,y*128-CameraY,128,128)
             if(BlockTIME[x][y] == 0){
               switch (BlockList[x][y]) {
                 case 'k':
@@ -186,7 +190,7 @@ function getMousePosition(canvas, evt) {
     IndexY = Math.floor(IndexY)
   }, false);
   canvas.addEventListener('click', function (evt) {
-
+Click = true
     if(Item_name[Itemnumber] == 'h'){
       BlockList[IndexX][IndexY] = 'n'
       audio.play()
@@ -249,7 +253,11 @@ function getMousePosition(canvas, evt) {
       BlockTIME[IndexX][IndexY] = 0;
       playsoud_Dart()
     }
+    setTimeout(doSomething, 1000);
   }, false);
+  function doSomething() {
+   Click = false 
+  }
 function playsoud_Dart(){
 }
   document.addEventListener('keyup', keypress_ivent);
@@ -257,7 +265,6 @@ function playsoud_Dart(){
 function keypress_ivent(e) {
   console.log(e.key)
   if (e.key == 's') {
-    Coin_audio.play()
     if(Shop){
       context.fillStyle = "#262"
       context.fillRect(0,0,10000,10000)
@@ -442,16 +449,13 @@ function keypress_ivent(e) {
     }
 }
 function NEWDrawEnvent(){
-    context.fillStyle = "#555"
-    context.fillRect(0,580,10000,150)
-    for (let i = 0; i < Item_name.length; i++) {
+    for (let i = -1; i < Item_name.length; i++) {
       var image = new Image()
-      context.fillStyle = "#999"
       if(i == Itemnumber){
       context.fillStyle = "#FF0"
-      context.fillRect(i*140+SlotCamera-10,600,100,100)
+      context.fillRect(i*140+SlotCamera-10,580,100,100)
       }else{
-        context.fillRect(i*140+SlotCamera-10,600,100,100)
+        context.fillRect(i*140+SlotCamera-10,580,100,100)
       }
       switch (Item_name[i]) {
           case 'g':
@@ -470,16 +474,16 @@ function NEWDrawEnvent(){
             image.src = "./image/Items/空.png"
               break;
       }
-      context.drawImage(image,i*140-0+SlotCamera,610,80,80)
+      context.drawImage(image,i*140-0+SlotCamera,590,80,80)
       context.font = "30px italic bold";
       context.fillStyle = "#333"
       //context.fillText(Item_Int[i], i*140+SlotCamera, 690);
       
       if(Item_name[i] == 'h'){
         let x = Item_Int[i]+9;
-        context.fillText(Math.floor(x/10), i*140+SlotCamera, 690);
+        context.fillText(Math.floor(x/10), i*140+SlotCamera, 670);
       }else{
-        context.fillText(Item_Int[i], i*140+SlotCamera, 690);
+        context.fillText(Item_Int[i], i*140+SlotCamera, 670);
       }
     }
   }
@@ -498,23 +502,30 @@ function NEWDrawEnvent(){
     }
     context.font = "20px italic bold";
     context.fillStyle = '#333';
-    context.fillRect(1160,540,1000,60)
-    context.fillRect(0,0,500,50)
-    context.fillStyle = '#F3F';
+    //context.fillRect(1160,540,1000,60)
+    context.fillRect(0,0,0,50)
+    context.fillStyle = '#FFF';
+    context.font = "40px italic bold";
+    context.fillStyle = "#333"
+    context.fillRect(0,0,300,50)
+    context.fillStyle = '#FFF';
+    context.fillText("Gold:"+gold+"G",0,40)
+    context.font = "20px italic bold";
     if(Shop){
-      context.fillText("S:ショップを閉じる",1200,600)
+      context.fillText("S:ショップを閉じる",1200,540)
       context.fillText("1~9~0:アイテム選択",1200,580)
       context.fillText("q:購入",1200,560)
     }else{
-      context.fillText("S:ショップを開く",1200,600)
+      context.fillText("S:ショップを開く",1200,540)
       context.fillText("1~9~0:アイテム選択",1200,580)
       context.fillText("q:選択したアイテムを売る",1160,560)
     }
-    context.font = "40px italic bold";
-    context.fillStyle = '#FFF';
-    context.fillText("Gold:"+gold+"G",0,40)
-    
-    //console.log(mousePos.x,":",mousePos.y)
+    context.fillStyle = '#333'
+    context.beginPath(); // パスの初期化
+    context.arc(300, 0, 48, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
+    context.closePath(); // パスを閉じる
+    context.fill(); // 軌跡の範囲を塗りつぶす
+    console.log(mousePos.x,":",mousePos.y)
 	requestAnimationFrame(main);
 }
 requestAnimationFrame(main);
